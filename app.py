@@ -32,8 +32,7 @@ def treneri_kurzy():
     cursor.execute("SELECT * FROM VSETCI_TRENERI_A_ICH_KURZY")
     kurzy1 = cursor.fetchall()
     conn.close()
-
-    return render_template("kurzy.html", kurzy1=kurzy1)
+    return render_template("kurzy-treneri.html", kurzy1=kurzy1)
 
 
 @app.route('/kurzy')
@@ -43,11 +42,7 @@ def kurzy():
     cursor.execute("SELECT * FROM Kurzy")
     kurzy2 = cursor.fetchall()
     conn.close()
-    vystup = "<h2> Zoznam vsetkych kurzzov: </h2>"
-    for kurz in kurzy2:
-        vystup += f"<p> {kurz} </p>"
-    vystup += '<a href="/">Späť</a>'
-    return vystup
+    return render_template("kurzy.html", kurzy2=kurzy2)
 
 
 @app.route("/miesta")
@@ -57,11 +52,7 @@ def miesta():
     cursor.execute("SELECT Nazov_miesta FROM Miesta")
     miesta1 = cursor.fetchall()
     conn.close()
-    vystup = "<h2> Zoznam vsetkych miest: </h2>"
-    for miesto in miesta1:
-        vystup += f"<p> {miesto} </p>"
-    vystup += '<a href="/">Späť</a>'
-    return vystup
+    return render_template("miesta.html", miesta1=miesta1)
 
 
 @app.route("/maximalna-kapacita-p")
@@ -71,11 +62,7 @@ def kapacita_p():
     cursor.execute("SELECT sum(Max_pocet_ucastnikov) AS Kapacita FROM Kurzy WHERE Nazov_kurzu LIKE 'P%';")
     kapacita_miesta = cursor.fetchall()
     conn.close()
-    vystup = "<h2> Kapacita miest, ktore sa zacinaju na P: </h2>"
-    for kapacita in kapacita_miesta:
-        vystup += f"<p> {kapacita} </p>"
-    vystup += '<a href="/">Späť</a>'
-    return vystup
+    return render_template("maximalna-kapacita-p.html", kapacita_miesta=kapacita_miesta)
 
 
 @app.route("/registracia", methods=['GET'])
