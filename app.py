@@ -1,6 +1,6 @@
 import hashlib
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 import sqlite3
 
 app = Flask(__name__)
@@ -33,11 +33,7 @@ def treneri_kurzy():
     kurzy1 = cursor.fetchall()
     conn.close()
 
-    vystup = "<h2> Zoznam trénerov a ich kurzy: </h2>"
-    for trener in kurzy1:
-        vystup += f"<p> {trener} </p>"
-    vystup += '<a href="/">Späť</a>'
-    return vystup
+    return render_template("kurzy.html", kurzy1=kurzy1)
 
 
 @app.route('/kurzy')
