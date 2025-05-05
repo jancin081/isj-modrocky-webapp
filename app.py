@@ -19,7 +19,7 @@ def index():
         <a href="/kurzy"><button>Zobraz všetky kurzy</button></a>
         <a href="/miesta"><button>Zobraz všetky miesta</button></a>
         <a href="/maximalna-kapacita-p"><button>Výpis súčtu maximálnej kapacity všetkých kurzov, ktoré začínajú na písmeno P</button></a>
-        <a href="/registracia"><button>Registruj trénera</button></a>
+        <a href="/registracia-trenera"><button>Registruj trénera</button></a>
         <a href="/pridaj_kurz"><button>Pridaj kurz</button></a>
         <hr>
     '''
@@ -65,30 +65,12 @@ def kapacita_p():
     return render_template("maximalna-kapacita-p.html", kapacita_miesta=kapacita_miesta)
 
 
-@app.route("/registracia", methods=['GET'])
+@app.route("/registracia-trenera", methods=['GET'])
 def registracia_form():
-    return '''
-    <h2>Registrácia trénera</h2>
-    <form action="/registracia" method="post">
-    <label>Meno:</label><br>
-    <input type="text" name="meno" required><br><br>
-    <label>Priezvisko:</label><br>
-    <input type="text" name="priezvisko" required><br><br>
-    <label>Špecializácia:</label><br>
-    <input type="text" name="specializacia" required><br><br>
-    <label>Telefón:</label><br>
-    <input type="text" name="telefon" required><br><br>
-    <label>Heslo:</label><br>
-    <input type="password" name="heslo" required><br><br>
-
-    <button type="submit">Registrovať</button>
-    </form>
-    <hr>
-    <a href="/">Späť</a>
-    '''
+    return render_template("registracia-trenera.html")
 
 
-@app.route("/registracia", methods=['POST'])
+@app.route("/registracia-trenera", methods=['GET', 'POST'])
 def registracia_trenera():
     meno = request.form['meno']
     priezvisko = request.form['priezvisko']
@@ -104,11 +86,7 @@ def registracia_trenera():
     conn.commit()
     conn.close()
 
-    return '''
-    <h2>Tréner bol úspešne zaregistrovaný!</h2>
-    <hr>
-    <a href="/">Späť</a>
-    '''
+    return render_template("success.html")
 
 
 @app.route("/pridaj_kurz", methods=['GET'])
