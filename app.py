@@ -13,16 +13,7 @@ def db():
 
 @app.route('/')
 def index():
-    return '''
-    <h1>Výber z databázy</h1>
-        <a href="/treneri-kurzy"><button>Zobraz všetkých trénerov a ich kurzy</button></a>
-        <a href="/kurzy"><button>Zobraz všetky kurzy</button></a>
-        <a href="/miesta"><button>Zobraz všetky miesta</button></a>
-        <a href="/maximalna-kapacita-p"><button>Výpis súčtu maximálnej kapacity všetkých kurzov, ktoré začínajú na písmeno P</button></a>
-        <a href="/registracia-trenera"><button>Registruj trénera</button></a>
-        <a href="/pridaj_kurz"><button>Pridaj kurz</button></a>
-        <hr>
-    '''
+    return render_template("index.html")
 
 
 @app.route('/treneri-kurzy')
@@ -91,25 +82,7 @@ def registracia_trenera():
 
 @app.route("/pridaj_kurz", methods=['GET'])
 def pridat_kurz_form():
-    return '''
-     <h2>Pridaj Kurz</h2>
-    <form action="/pridaj_kurz" method="post">
-    <label>Názov kurzu:</label><br>
-    <input type="text" name="nazov" required><br><br>
-    <label>Typ Športu:</label><br>
-    <input type="text" name="typ_sportu" required><br><br>
-    <label>Maximálny počet účastníkov:</label><br>
-    <input type="text" name="max_ucastnici" required><br><br>
-    <label>ID trénera:</label><br>
-    <input type="text" name="id_trenera" required><br><br>
-    <label>ID nového kurzu:</label><br>
-    <input type="text" name="id_kurzu" required><br><br>
-
-    <button type="submit">Pridať kurz</button>
-    </form>
-    <hr>
-    <a href="/">Späť</a>
-    '''
+    return render_template("pridaj_kurz.html")
 
 
 def sifrovanie(text):
@@ -141,11 +114,7 @@ def pridaj_kurz():
     conn.commit()
     conn.close()
 
-    return '''
-    <h2>Kurz bol úspešne pridaný!</h2>
-    <hr>
-    <a href="/">Späť</a>
-    '''
+    return render_template("success_kurz.html")
 
 
 if __name__ == '__main__':

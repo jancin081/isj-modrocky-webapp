@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pridaj Kurz</title>
+</head>
+
+<body>
+         <h2>Pridaj Kurz</h2>
+    <form action="/pridaj_kurz" method="post">
+    <label>Názov kurzu:</label><br>
+    <input type="text" name="nazov" required><br><br>
+    <label>Typ Športu:</label><br>
+    <input type="text" name="typ_sportu" required><br><br>
+    <label>Maximálny počet účastníkov:</label><br>
+    <input type="text" name="max_ucastnici" required><br><br>
+    <label>ID trénera:</label><br>
+    <input type="text" name="id_trenera" required><br><br>
+    <label>ID nového kurzu:</label><br>
+    <input type="text" name="id_kurzu" required><br><br>
+
+    <button type="submit">Pridať kurz</button>
+    </form>
+    <hr>
+    <a href="/">Späť</a>
+</body>
+</html>
