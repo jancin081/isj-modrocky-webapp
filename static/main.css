@@ -1,4 +1,10 @@
 
+h1 {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+}
+
 h2 {
     color: blue;
     font-family: Arial, sans-serif;
@@ -8,7 +14,25 @@ h2 {
     text-transform: uppercase;
 }
 
+.mojah2 {
+    color: red;
+}
+
 p {
     color: green;
     font-family: sans-serif;
+}
+
+.btn {
+	background:linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+	background-color:#2dabf9;
+	border-radius:3px;
+	border:1px solid #0b0e07;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:9px 23px;
+	text-decoration:none;
 }
