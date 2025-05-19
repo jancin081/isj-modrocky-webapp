@@ -1,7 +1,9 @@
 import hashlib
-
-from flask import Flask, request, render_template
 import sqlite3
+import os
+from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 
