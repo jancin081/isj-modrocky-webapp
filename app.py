@@ -1,11 +1,12 @@
 import hashlib
 import sqlite3
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, g, session
 from flask_sqlalchemy import SQLAlchemy
+from i18n import TRANSLATIONS, SUPPORTED
 
 app = Flask(__name__, instance_relative_config=True)
-
+app.secret_key = "tajny_kluc"
 db_path = os.path.join(app.instance_path, "treneri.db")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}".replace("\\", "/")
@@ -16,6 +17,19 @@ db = SQLAlchemy(app)
 def db_connect():
     conn = sqlite3.connect("instance/treneri.db")
     return conn
+
+
+@app.before_request
+def set_lang():
+    lang = request.args.get("lang")
+    if lang not in SUPPORTED:
+        lang = session.get('lang', 'sk')
+    session["lang"] = lang
+    g.t = TRANSLATIONS[lang]
+
+@app.context_processor
+def inject_translations():
+    return dict(t=g.t)
 
 
 class Kurz(db.Model):

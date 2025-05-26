@@ -7,9 +7,9 @@
 </head>
 
 <body>
-    <h2> Zoznam všetkých kurzov: </h2>
+    <h2> {{t.courses_list}} </h2>
 
-    {#
+    {# stare
    {% for kurzy in kurzy2 %}
         <p>{{ kurzy }}</p>
     {% endfor %}
@@ -19,6 +19,6 @@
     <p>{{ kurz.Nazov_kurzu }} (ID: {{ kurz.ID_kurzu }})</p>
     {% endfor %}
 
-    <a href="/">Späť</a>
+    <a href="/">{{t.back}}</a>
 </body>
 </html>

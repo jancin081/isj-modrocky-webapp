@@ -7,12 +7,12 @@
 </head>
 
 <body>
-    <h2> Kapacita miest, ktoré sa začínajú na P: </h2>
+    <h2> {{t.max_capacity_p}} </h2>
 
    {% for kapacita in kapacita_miesta %}
         <p>{{ kapacita }}</p>
     {% endfor %}
 
-    <a href="/">Späť</a>
+    <a href="/">{{t.back}}</a>
 </body>
 </html>
