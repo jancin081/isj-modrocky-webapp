@@ -4,13 +4,47 @@ import os
 from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+app = Flask(__name__, instance_relative_config=True)
 
-app = Flask(__name__)
+db_path = os.path.join(app.instance_path, "treneri.db")
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}".replace("\\", "/")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
 
 
-def db():
-    conn = sqlite3.connect("treneri.db")
+def db_connect():
+    conn = sqlite3.connect("instance/treneri.db")
     return conn
+
+
+class Kurz(db.Model):
+    __tablename__ = "Kurzy"
+    ID_kurzu = db.Column(db.Integer, primary_key=True)
+    Nazov_kurzu = db.Column(db.String, nullable=False)
+    Typ_sportu = db.Column(db.String)
+    Max_pocet_ucastnikov = db.Column(db.Integer)
+    ID_trenera = db.Column(db.Integer)
+
+
+class Miesta(db.Model):
+    __tablename__ = "Miesta"
+    ID_miesta = db.Column(db.Integer, primary_key=True)
+    Nazov_miesta = db.Column(db.String, nullable=False)
+    Adresa = db.Column(db.String)
+    Kapacita = db.Column(db.Integer)
+
+
+class TreneriKurzyView(db.Model):
+    __tablename__ = "VSETCI_TRENERI_A_ICH_KURZY"
+    ID_trenera = db.Column(db.Integer)
+    Meno = db.Column(db.String)
+    Priezvisko = db.Column(db.String)
+    Nazov_kurzu = db.Column(db.String)
+
+    __mapper_args__ = {
+        "primary_key": [ID_trenera, Nazov_kurzu]
+    }
 
 
 @app.route('/')
@@ -20,37 +54,25 @@ def index():
 
 @app.route('/treneri-kurzy')
 def treneri_kurzy():
-    conn = db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM VSETCI_TRENERI_A_ICH_KURZY")
-    kurzy1 = cursor.fetchall()
-    conn.close()
+    kurzy1 = TreneriKurzyView.query.all()
     return render_template("kurzy-treneri.html", kurzy1=kurzy1)
 
 
 @app.route('/kurzy')
 def kurzy():
-    conn = db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Kurzy")
-    kurzy2 = cursor.fetchall()
-    conn.close()
-    return render_template("kurzy.html", kurzy2=kurzy2)
+    kurzy_zobraz = Kurz.query.all()
+    return render_template("kurzy.html", kurzy2=kurzy_zobraz)
 
 
 @app.route("/miesta")
 def miesta():
-    conn = db()
-    cursor = conn.cursor()
-    cursor.execute("SELECT Nazov_miesta FROM Miesta")
-    miesta1 = cursor.fetchall()
-    conn.close()
+    miesta1 = Miesta.query.all()
     return render_template("miesta.html", miesta1=miesta1)
 
 
 @app.route("/maximalna-kapacita-p")
 def kapacita_p():
-    conn = db()
+    conn = db_connect()
     cursor = conn.cursor()
     cursor.execute("SELECT sum(Max_pocet_ucastnikov) AS Kapacita FROM Kurzy WHERE Nazov_kurzu LIKE 'P%';")
     kapacita_miesta = cursor.fetchall()
@@ -72,7 +94,7 @@ def registracia_trenera():
     heslo = request.form['heslo']
     heslo_hash = hashlib.sha256(heslo.encode()).hexdigest()
 
-    conn = db()
+    conn = db_connect()
     cursor = conn.cursor()
     cursor.execute("INSERT INTO Treneri (Meno, Priezvisko, Specializacia, Telefon, Heslo) VALUES (?, ?, ?, ?, ?)",
                    (meno, priezvisko, specializacia, telefon, heslo_hash))
@@ -108,7 +130,7 @@ def pridaj_kurz():
     id_trener = request.form['id_trenera']
     id_kurz = request.form['id_kurzu']
 
-    conn = db()
+    conn = db_connect()
     cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO Kurzy (ID_kurzu, Nazov_kurzu, Typ_sportu, Max_pocet_ucastnikov, ID_trenera) VALUES (?, ?, ?, ?, ?)",

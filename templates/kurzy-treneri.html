@@ -7,12 +7,27 @@
 </head>
 
 <body>
-    <h2> Zoznam trénerov a ich kurzy: </h2>
-
-   {% for trener in kurzy1 %}
-        <p>{{ trener }}</p>
-    {% endfor %}
-
+     <h2 style="text-align:center;">Zoznam trénerov a ich kurzy</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID trénera</th>
+                <th>Meno</th>
+                <th>Priezvisko</th>
+                <th>Názov kurzu</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trener in kurzy1 %}
+            <tr>
+                <td>{{ trener.ID_trenera }}</td>
+                <td>{{ trener.Meno }}</td>
+                <td>{{ trener.Priezvisko }}</td>
+                <td>{{ trener.Nazov_kurzu }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <a href="/">Späť</a>
 </body>
 </html>

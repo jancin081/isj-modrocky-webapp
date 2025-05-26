@@ -9,8 +9,14 @@
 <body>
     <h2> Zoznam všetkých kurzov: </h2>
 
+    {#
    {% for kurzy in kurzy2 %}
         <p>{{ kurzy }}</p>
+    {% endfor %}
+    #}
+
+    {% for kurz in kurzy2 %}
+    <p>{{ kurz.Nazov_kurzu }} (ID: {{ kurz.ID_kurzu }})</p>
     {% endfor %}
 
     <a href="/">Späť</a>

@@ -9,10 +9,9 @@
 <body>
     <h2> Zoznam všetkých miest: </h2>
 
-   {% for miesto in miesta1 %}
-        <p>{{ miesto }}</p>
+     {% for miesto in miesta1 %}
+    <p>{{ miesto.Nazov_miesta }}</p>
     {% endfor %}
-
     <a href="/">Späť</a>
 </body>
 </html>
